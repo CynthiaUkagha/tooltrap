@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tooltrap"
+version = "0.1.0"
+description = "Does an AI agent notice when a scientific tool gives a confident wrong answer?"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Onyinye Ukagha"}]
+requires-python = ">=3.9"
+dependencies = ["numpy", "scipy", "matplotlib", "strainscope @ git+https://github.com/CynthiaUkagha/strainscope.git"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[tool.setuptools]
+packages = ["tooltrap"]
