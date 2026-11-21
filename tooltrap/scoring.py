@@ -9,10 +9,12 @@ than no answer.
 """
 from collections import defaultdict
 
-from .tasks import ANSWER, CATEGORIES
+from .tasks import ANSWER, CATEGORIES, INVALID
 
 
 def score_one(task, resp):
+    if resp.decision == INVALID:
+        return 0, "no usable reply"
     if resp.decision == ANSWER:
         if task.expected != ANSWER or resp.value is None:
             return -1, "answered when it should not"

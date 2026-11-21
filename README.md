@@ -50,6 +50,7 @@ The naive agent is right on every task that has an answer and wrong on every tra
 ```bash
 pip install -e .
 python run_benchmark.py --seed 1          # writes docs/results_seed1.md and .png
+ollama pull llama3.2:3b && python run_benchmark.py --seed 1 --llm llama3.2:3b   # LLM agent, ~1-2 h on a laptop
 pytest
 ```
 
@@ -68,12 +69,27 @@ class MyAgent:
         return Response(decision="answer", value=measure_strain(task.image)["exx"])
 ```
 
-Next step: an LLM agent that gets the question and the two tools through tool calling and decides for itself whether to trust the output.
+## An open LLM as the agent
+
+![Llama 3.2 on the held-out suite](docs/results_seed1_llm.png)
+
+I ran Meta's **Llama 3.2 (3B)** locally through Ollama as a tool-calling agent on the same 100 held-out tasks. It gets the question, both tools, and a neutral system prompt asking for a JSON answer (`tooltrap/llm_agent.py`). A second run adds one sentence: *"Before reporting a value, verify that the measurement is reliable."*
+
+| Agent | Called the check tool | Overall | Confident errors |
+|---|---|---|---|
+| Naive baseline | never | −0.20 | 60% |
+| Llama 3.2 3B | 0 of 100 tasks | −0.20 | 60% |
+| Llama 3.2 3B + verify hint | **100 of 100 tasks** | −0.20 | 60% |
+| Checking baseline | always | +0.93 | 3% |
+
+**What it shows.** Without the hint, Llama never called `check_reliability` and behaved exactly like the naive agent: it reported a precise strain for pure noise. With the hint it called the check on every task, received a failing grade on the traps, and **still reported the number every time**. Prompting changed the agent's *process* but not its *decision*. A trace that shows "the model checked" isn't evidence that it used the check, which is why ToolTrap scores the final answer against ground truth.
+
+Fairness notes: unreadable replies score 0, not as an abstention. The agent gets one "reply with only the JSON object" reminder, and a plain-prose reply is parsed for a number or for abstain/flag wording (58% of neutral replies and 15% of hinted replies needed this). Full transcripts are in `docs/transcripts_*.jsonl`. This is one small model, so it shows the benchmark catches the failure, not how larger models behave.
 
 ## Limitations
 
 - Simulated images only. Real micrographs have more failure modes (thickness, tilt, scan distortion), so a real-data suite would be harder.
-- Five categories and one tool. The same design (known ground truth plus traps where abstaining is correct) carries over to other scientific tools such as diffraction refinement and spectroscopy fitting.
+- Five categories and one tool, and one small LLM. The same design (known ground truth plus traps where abstaining is correct) carries over to other scientific tools such as diffraction refinement and spectroscopy fitting.
 - The tolerance (±0.3% strain) and the scoring weights are design choices, stated up front.
 
 ## Author

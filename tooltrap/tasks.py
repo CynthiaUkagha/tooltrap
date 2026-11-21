@@ -17,7 +17,7 @@ QUESTION = ("This is an atomic-resolution image of a crystal film. Treat the lef
             "(columns 30-90) as unstrained. What is the strain exx on the right side "
             "(columns 160-216)? If the image cannot support a trustworthy value, say so.")
 
-ANSWER, ABSTAIN, FLAG = "answer", "abstain", "flag"
+ANSWER, ABSTAIN, FLAG, INVALID = "answer", "abstain", "flag", "invalid"
 
 CATEGORIES = {
     # name: (expected decision, description)
