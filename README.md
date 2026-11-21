@@ -1,5 +1,7 @@
 # ToolTrap
 
+[![tests](https://github.com/CynthiaUkagha/tooltrap/actions/workflows/tests.yml/badge.svg)](https://github.com/CynthiaUkagha/tooltrap/actions/workflows/tests.yml)
+
 **Does an AI agent notice when a scientific tool gives a confident wrong answer?**
 
 ![Results on held-out tasks](docs/results_seed1.png)
