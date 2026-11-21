@@ -95,6 +95,6 @@ Fairness notes: unreadable replies score 0, not as an abstention. The agent gets
 ## Author
 
 **Onyinye Ukagha**, materials scientist working on electron microscopy, X-ray diffraction and self-checking scientific software.
-[Website](https://cynthiaukagha.github.io) · [LinkedIn](https://www.linkedin.com/in/cynthiaukagha/) · [StrainScope](https://github.com/CynthiaUkagha/strainscope)
+[Website](https://cynthiaukagha.github.io) · [LinkedIn](https://www.linkedin.com/in/onyinyeukagha/) · [StrainScope](https://github.com/CynthiaUkagha/strainscope)
 
 MIT License
